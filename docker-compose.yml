@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+  web:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./dockerfiles/
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
